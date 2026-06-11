@@ -90,7 +90,7 @@ final class SenderKitTransport extends AbstractTransport
     }
 
     /**
-     * @param list<Address> $addresses
+     * @param array<Address> $addresses
      * @return list<string>|null
      */
     private function addressList(array $addresses): ?array
@@ -99,7 +99,7 @@ final class SenderKitTransport extends AbstractTransport
             return null;
         }
 
-        return array_map(static fn (Address $a): string => $a->getAddress(), $addresses);
+        return array_values(array_map(static fn (Address $a): string => $a->getAddress(), $addresses));
     }
 
     /** @return list<Attachment>|null */

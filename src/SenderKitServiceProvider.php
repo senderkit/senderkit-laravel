@@ -51,16 +51,18 @@ final class SenderKitServiceProvider extends ServiceProvider
         ], 'senderkit-config');
 
         $this->app->afterResolving(MailManager::class, function (MailManager $manager): void {
-            $manager->extend('senderkit', fn (): SenderKitTransport => new SenderKitTransport(
-                $this->app->make(Client::class),
-            ));
+            $manager->extend('senderkit', fn (): SenderKitTransport => new SenderKitTransport($this->client()));
         });
 
         $this->app->afterResolving(ChannelManager::class, function (ChannelManager $manager): void {
-            $manager->extend('senderkit', fn (): SenderKitChannel => new SenderKitChannel(
-                $this->app->make(Client::class),
-            ));
+            $manager->extend('senderkit', fn (): SenderKitChannel => new SenderKitChannel($this->client()));
         });
+    }
+
+    private function client(): Client
+    {
+        /** @var Client */
+        return $this->app->make(Client::class);
     }
 
     private static function stringValue(Repository $config, string $key, string $default): string
