@@ -6,8 +6,12 @@ namespace SenderKit\Laravel;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Mail\MailManager;
+use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\ServiceProvider;
 use SenderKit\Client;
+use SenderKit\Laravel\Mail\SenderKitTransport;
+use SenderKit\Laravel\Notifications\SenderKitChannel;
 use SenderKit\Webhook\WebhookVerifier;
 
 final class SenderKitServiceProvider extends ServiceProvider
@@ -45,6 +49,18 @@ final class SenderKitServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/senderkit.php' => config_path('senderkit.php'),
         ], 'senderkit-config');
+
+        $this->app->afterResolving(MailManager::class, function (MailManager $manager): void {
+            $manager->extend('senderkit', fn (): SenderKitTransport => new SenderKitTransport(
+                $this->app->make(Client::class),
+            ));
+        });
+
+        $this->app->afterResolving(ChannelManager::class, function (ChannelManager $manager): void {
+            $manager->extend('senderkit', fn (): SenderKitChannel => new SenderKitChannel(
+                $this->app->make(Client::class),
+            ));
+        });
     }
 
     private static function stringValue(Repository $config, string $key, string $default): string

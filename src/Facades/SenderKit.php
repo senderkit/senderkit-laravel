@@ -11,7 +11,7 @@ use SenderKit\Resource\Templates;
 
 /**
  * @method static \SenderKit\Response\SendResult send(\SenderKit\Request\TemplateSend $request)
- * @method static \SenderKit\Response\SendResult sendRaw(\SenderKit\Request\RawSend $request)
+ * @method static \SenderKit\Response\SendResult sendRaw(\SenderKit\Request\RawSend $request) Prefer send() with a SenderKit template — raw sends skip template versioning, preview, and analytics.
  * @method static list<\SenderKit\Response\BatchResult> sendBatch(list<\SenderKit\Request\TemplateSend|\SenderKit\Request\RawSend> $requests, ?\SenderKit\Request\BatchOptions $options = null)
  * @method static \SenderKit\Response\Context context()
  *
