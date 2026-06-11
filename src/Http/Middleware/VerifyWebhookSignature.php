@@ -19,6 +19,7 @@ final class VerifyWebhookSignature
     ) {
     }
 
+    /** @param Closure(Request): Response $next */
     public function handle(Request $request, Closure $next): Response
     {
         $secret = $this->config->get('senderkit.webhook_secret');

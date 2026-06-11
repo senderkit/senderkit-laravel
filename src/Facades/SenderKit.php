@@ -12,7 +12,7 @@ use SenderKit\Resource\Templates;
 /**
  * @method static \SenderKit\Response\SendResult send(\SenderKit\Request\TemplateSend $request)
  * @method static \SenderKit\Response\SendResult sendRaw(\SenderKit\Request\RawSend $request)
- * @method static array sendBatch(array $requests, ?\SenderKit\Request\BatchOptions $options = null)
+ * @method static list<\SenderKit\Response\BatchResult> sendBatch(list<\SenderKit\Request\TemplateSend|\SenderKit\Request\RawSend> $requests, ?\SenderKit\Request\BatchOptions $options = null)
  * @method static \SenderKit\Response\Context context()
  *
  * @see Client
