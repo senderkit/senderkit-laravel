@@ -216,6 +216,8 @@ final class KitchenSinkNotification extends Notification
             ->metadata(['order_id' => 'ord_1'])
             ->cc(['cc@example.com'])
             ->replyTo('reply@example.com')
+            ->from('hello@acme.com')
+            ->fromName('Acme Support')
             ->idempotencyKey('idem-123');
     }
 }

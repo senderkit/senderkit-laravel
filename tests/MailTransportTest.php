@@ -68,6 +68,7 @@ final class MailTransportTest extends TestCase
         $this->assertSame('email', $body['channel']);
         $this->assertSame('to@example.com', $body['to']);
         $this->assertSame('noreply@acme.test', $body['from']);
+        $this->assertSame('Acme', $body['fromName']);
         $this->assertSame('Greetings', $body['content']['subject']);
         $this->assertSame('<p>Hello</p>', $body['content']['html']);
     }

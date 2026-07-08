@@ -39,6 +39,10 @@ final class SenderKitMessage
 
     private ?string $replyTo = null;
 
+    private ?string $from = null;
+
+    private ?string $fromName = null;
+
     /** @var list<Attachment>|null */
     private ?array $attachments = null;
 
@@ -121,6 +125,22 @@ final class SenderKitMessage
         return $this;
     }
 
+    /** Email-only From address override (bare address; put the display name in fromName()). */
+    public function from(string $from): self
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
+    /** Email-only From display name override, rendered as `Name <address>`. */
+    public function fromName(string $fromName): self
+    {
+        $this->fromName = $fromName;
+
+        return $this;
+    }
+
     /** @param list<Attachment> $attachments */
     public function attachments(array $attachments): self
     {
@@ -160,6 +180,8 @@ final class SenderKitMessage
             bcc: $this->bcc,
             replyTo: $this->replyTo,
             attachments: $this->attachments,
+            from: $this->from,
+            fromName: $this->fromName,
             idempotencyKey: $this->idempotencyKey,
         );
     }

@@ -57,13 +57,19 @@ final class SenderKitTransport extends AbstractTransport
             attachments: $this->attachments($email),
         );
 
-        $from = ($email->getFrom()[0] ?? null)?->getAddress();
+        $fromAddress = $email->getFrom()[0] ?? null;
+        $from = $fromAddress?->getAddress();
+        // Symfony returns '' when the address has no display name; treat that as
+        // "no override" so it falls back to the connection's from name.
+        $fromName = $fromAddress?->getName();
+        $fromName = ($fromName === null || $fromName === '') ? null : $fromName;
 
         foreach ($email->getTo() as $recipient) {
             $this->client->sendRaw(new RawSend(
                 to: $recipient->getAddress(),
                 content: $content,
                 from: $from,
+                fromName: $fromName,
             ));
         }
     }
